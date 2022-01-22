@@ -1,0 +1,52 @@
+name: Telerik-Github-Actions-Practice
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    types: [opened, synchronize, reopened]
+jobs:
+  build_lint_test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out repository code
+      uses: actions/checkout@v2
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pylint pylint==2.11.1
+        pip install pycodestyle
+    - name: Lint with pylint
+      run: |
+        python lint_test.py
+    - name: Style with pycodestyle
+      run: |
+        pycodestyle *.py
+    - name: Unit testing
+      run: |
+        python3 -m doctest factorial.py
+    - name: Build container
+      run: echo "Building container iamge"
+    - name: Deploy
+      run: |
+        echo "Deploying to cluster...."
+        sleep 30
+        echo "Container has been deployed!"
+    - run: echo "This job's status is ${{ job.status}}."
+  sonarcloud:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out repository code
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+    - name: SonarCloud Scan
+      uses: SonarSource/sonarcloud-github-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
