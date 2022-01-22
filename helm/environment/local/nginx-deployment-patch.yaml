@@ -1,0 +1,11 @@
+spec:
+  template:
+    spec:
+      containers:
+      - name: controller
+        ports:
+        - containerPort: 3000
+          hostPort: 3000
+        - containerPort: 5601
+          hostPort: 5601
+      hostNetwork: true

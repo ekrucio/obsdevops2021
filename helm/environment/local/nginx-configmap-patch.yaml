@@ -1,0 +1,6 @@
+{
+	"data": {
+		"3000": "monitoring/grafana:80",
+		"5601": "monitoring/kibana-kibana:5601"
+	}
+}
