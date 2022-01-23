@@ -4,10 +4,11 @@ This is a repository for the final project of the course.
 
 ## Description
 
-The main focus of the project is [Observability](https://cloud.google.com/architecture/devops/devops-measurement-monitoring-and-observability). For the purposes of this project, all deployements are running in local minikube cluster with the following configuration:
+The main focus of the project is [Observability](https://cloud.google.com/architecture/devops/devops-measurement-monitoring-and-observability). For the purposes of this project, all deployments are running in local minikube cluster with the following configuration:
 ```bash
 minikube start --driver=virtualbox --kubernetes-version=v1.21.2 --vm=true --cpus=4 --memory=8g
 ```
+All deployments are through Helm, package manager for Kubernetes.
 It consists of several services:
 * Nginx Ingress Controller
 * Prometheus server
@@ -21,7 +22,7 @@ It consists of several services:
 - Nginx's role is solely to expose Grafana and Kibana to outside the cluster. 
 - Prometheus is responsible for collecting and storing the metrics exposed by the other services part of this deployment.
 - Grafana is a visualization tool, currently utilising Prometheus as a datasource to aggregate and visualise metrics scraped by it. Also used for alerting.
-- Filebeat is utilised to collect the application logs and enrich them with Kubernetes metadata from the other services and it ships them to Logstash.
+- Filebeat is utilised to collect the application logs from the other services and enrich them with Kubernetes metadata and it ships them to Logstash.
 - Logstash receives the collected logs from Filebeat and ships them to Elasticsearch, plus it controls the indices that they should belong to.
 - Currently Elasticsearch is responsible for storing the logs collected from the application logs.
 - Kibana is a visualization tool for Elasticsearch. It makes searching, aggregating and visualising data in Elasticsearch really easy.
@@ -58,20 +59,43 @@ After all artefacts are deployed and stable (stabilising the services written in
 ```bash
 kubectl get secret --namespace monitoring grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
 ```
+#### Local Grafana instance 
+![Local Grafana instance](https://i.imgur.com/Z82Heei.png)
+
+----------------------------------------------------------------------------------------------------------------
 To access Kibana head to *ingress.local* (no authentication required). Currently there are only two indices set up:
 * obs-filebeat-* : all of the application logs except those from Elasticsearch instance
 * obs-es-filebeat-* : application logs from Elasticsearch
 
+#### Local Kibana instance 
+![Local Kibana instance](https://i.imgur.com/ZaULIxy.png)
+----------------------------------------------------------------------------------------------------------------
+
+
 ## K8s resource maps
+----------------------------------------------------------------------------------------------------------------
+![Nginx Ingress Controller resources](https://i.imgur.com/GmTDWV8.png)
+#### Nginx Ingress Controller resources
+----------------------------------------------------------------------------------------------------------------
+![Elasticsearch + Kibana resources](https://i.imgur.com/TLPyZvy.png)
+#### Elasticsearch + Kibana resources
+----------------------------------------------------------------------------------------------------------------
+![Prometheus resources](https://i.imgur.com/RanMVDd.png)
+#### Prometheus resources
+----------------------------------------------------------------------------------------------------------------
+![Logstash + Filebeat resources](https://i.imgur.com/Z2wcOwJ.png)
+#### Logstash + Filebeat resources
+----------------------------------------------------------------------------------------------------------------
+![Grafana](https://i.imgur.com/HcFgnOQ.png)
+#### Grafana resources
+----------------------------------------------------------------------------------------------------------------
 
-
-#TODO Add resouce maps imgur -> links with preview
 #TODO Add Grafana and Kibana screenshots
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
-Please make sure to update tests as appropriate.
+Please make sure to update tests or charts as appropriate.
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
