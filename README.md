@@ -90,7 +90,6 @@ To access Kibana head to *ingress.local* (no authentication required). Currently
 #### Grafana resources
 ----------------------------------------------------------------------------------------------------------------
 
-#TODO Add Grafana and Kibana screenshots
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
