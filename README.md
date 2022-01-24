@@ -1,3 +1,5 @@
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ekrucio_obsdevops2021&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=ekrucio_obsdevops2021)
+
 # Teleric Academy DevOps 2021
 
 This is a repository for the final project of the course.
